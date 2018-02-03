@@ -15,6 +15,10 @@ class Greeter
 
     public function greet($name)
     {
+        if (ctype_upper($name)) {
+            return sprintf("HELLO %s!", $name);
+        }
+
         return sprintf("Hello, %s.", $name ?? self::UNKNOWN_FRIEND);
     }
 }

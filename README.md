@@ -1,0 +1,1 @@
+# greeting-kata-with-friends-at-onestic

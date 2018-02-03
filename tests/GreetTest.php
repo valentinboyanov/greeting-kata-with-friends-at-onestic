@@ -18,4 +18,11 @@ class GreetTest extends TestCase
 
         $this->assertEquals("Hello, Bob.", $greeter->greet("Bob"));
     }
+
+    public function test_3_can_say_hello_to_unknown()
+    {
+        $greeter = new Greeter();
+
+        $this->assertEquals("Hello, my friend.", $greeter->greet(null));
+    }
 }

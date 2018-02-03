@@ -21,7 +21,7 @@ class Greeter
      */
     public function greet($name): string
     {
-        return sprintf($this->getSalutation($name), $this->getSalutated($name));
+        return sprintf($this->getSalutation($name), $this->getSaluted($name));
     }
 
     /**
@@ -37,7 +37,7 @@ class Greeter
      * @param $name
      * @return string
      */
-    private function getSalutated($name): string
+    private function getSaluted($name): string
     {
         if (is_array($name)) {
             $name = implode(' and ', $name);

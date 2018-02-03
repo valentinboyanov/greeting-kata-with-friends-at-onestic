@@ -11,14 +11,21 @@ namespace Kata;
 
 class Greeter
 {
-    const UNKNOWN_FRIEND = 'my friend';
+    const UNKNOWN_FRIEND   = 'my friend';
+    const SALUTATION       = "Hello, %s.";
+    const SHOUT_SALUTATION = "HELLO %s!";
 
     public function greet($name)
     {
-        if (ctype_upper($name)) {
-            return sprintf("HELLO %s!", $name);
-        }
+        return sprintf($this->getSalutation($name), $name ?? self::UNKNOWN_FRIEND);
+    }
 
-        return sprintf("Hello, %s.", $name ?? self::UNKNOWN_FRIEND);
+    /**
+     * @param $name
+     * @return string
+     */
+    private function getSalutation($name): string
+    {
+        return ctype_upper($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
 }

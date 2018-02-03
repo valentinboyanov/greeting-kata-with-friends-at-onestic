@@ -1,0 +1,11 @@
+{
+    "require": {
+        "phpunit/phpunit": "^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kata\\": "src/",
+            "Kata\\Tests\\": "tests/"
+        }
+    }
+}

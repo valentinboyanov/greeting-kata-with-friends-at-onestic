@@ -21,11 +21,7 @@ class Greeter
      */
     public function greet($name): string
     {
-        if (is_array($name)) {
-            $name = implode(' and ', $name);
-        }
-
-        return sprintf($this->getSalutation($name), $name ?? self::UNKNOWN_FRIEND);
+        return sprintf($this->getSalutation($name), $this->getSalutated($name));
     }
 
     /**
@@ -36,4 +32,18 @@ class Greeter
     {
         return ctype_upper($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    private function getSalutated($name): string
+    {
+        if (is_array($name)) {
+            $name = implode(' and ', $name);
+        }
+
+        return $name ?? self::UNKNOWN_FRIEND;
+    }
+
 }

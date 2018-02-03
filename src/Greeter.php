@@ -15,8 +15,16 @@ class Greeter
     const SALUTATION       = "Hello, %s.";
     const SHOUT_SALUTATION = "HELLO %s!";
 
-    public function greet($name)
+    /**
+     * @param $name
+     * @return string
+     */
+    public function greet($name): string
     {
+        if (is_array($name)) {
+            $name = implode(', ', $name);
+        }
+
         return sprintf($this->getSalutation($name), $name ?? self::UNKNOWN_FRIEND);
     }
 

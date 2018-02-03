@@ -22,7 +22,7 @@ class Greeter
     public function greet($name): string
     {
         if (is_array($name)) {
-            $name = implode(', ', $name);
+            $name = implode(' and ', $name);
         }
 
         return sprintf($this->getSalutation($name), $name ?? self::UNKNOWN_FRIEND);

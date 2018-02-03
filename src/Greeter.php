@@ -11,12 +11,10 @@ namespace Kata;
 
 class Greeter
 {
+    const UNKNOWN_FRIEND = 'my friend';
+
     public function greet($name)
     {
-        $defSalutation = 'my friend';
-        if (is_null($name)){
-            $name = $defSalutation;
-        }
-        return sprintf("Hello, %s.", $name);
+        return sprintf("Hello, %s.", $name ?? self::UNKNOWN_FRIEND);
     }
 }

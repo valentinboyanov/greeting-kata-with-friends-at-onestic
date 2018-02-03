@@ -13,6 +13,10 @@ class Greeter
 {
     public function greet($name)
     {
+        $defSalutation = 'my friend';
+        if (is_null($name)){
+            $name = $defSalutation;
+        }
         return sprintf("Hello, %s.", $name);
     }
 }

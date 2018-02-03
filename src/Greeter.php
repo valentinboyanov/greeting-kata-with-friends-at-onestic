@@ -13,5 +13,6 @@ class Greeter
 {
     public function greet($name)
     {
+        return sprintf("Hello, %s.", $name);
     }
 }

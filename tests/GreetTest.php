@@ -42,4 +42,9 @@ class GreetTest extends TestCase
     {
         $this->assertEquals('Hello, Paco and Paca.', $this->greeter->greet(['Paco', 'Paca']));
     }
+
+    public function test_6_handle_three_names()
+    {
+        $this->assertEquals('Hello, Paco, Antonio and Paca.', $this->greeter->greet(['Paco','Antonio', 'Paca']));
+    }
 }

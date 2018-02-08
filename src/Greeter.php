@@ -40,7 +40,13 @@ class Greeter
     private function getSaluted($name): string
     {
         if (is_array($name)) {
-            $name = implode(' and ', $name);
+            if (sizeof($name) < 3) {
+                $name = implode(' and ', $name);
+            } else {
+                $lastName = array_pop($name);
+                $name     = implode(', ', $name);
+                $name    .= ', and ' . $lastName;
+            }
         }
 
         return $name ?? self::UNKNOWN_FRIEND;

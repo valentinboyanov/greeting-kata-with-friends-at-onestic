@@ -40,16 +40,29 @@ class Greeter
     private function getSaluted($name): string
     {
         if (is_array($name)) {
-            if (sizeof($name) < 3) {
-                $name = implode(' and ', $name);
-            } else {
-                $lastName = array_pop($name);
-                $name     = implode(', ', $name);
-                $name    .= ', and ' . $lastName;
-            }
+            $name = $this->getSalutedFromArray($name);
         }
 
         return $name ?? self::UNKNOWN_FRIEND;
+    }
+
+    /**
+     * @param $names
+     *
+     * @return string
+     */
+    private function getSalutedFromArray($names): string
+    {
+        $lastName     = array_pop($names);
+        $formatedName = implode(', ', $names);
+
+        if (sizeof($names) >= 2) {
+            $formatedName .=   ',';
+        }
+
+        $formatedName .= ' and ' . $lastName;
+        
+        return $formatedName;
     }
 
 }

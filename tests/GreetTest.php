@@ -47,4 +47,9 @@ class GreetTest extends TestCase
     {
         $this->assertEquals("Hello, Amy, Brian, and Charlotte.", $this->greeter->greet(["Amy", "Brian", "Charlotte"]));
     }
+
+    public function test_7_handle_three_names_shouting_one()
+    {
+        $this->assertEquals("Hello, Amy and Charlotte. AND HELLO BRIAN!", $this->greeter->greet(["Amy", "BRIAN", "Charlotte"]));
+    }
 }

@@ -1,0 +1,17 @@
+# Config file for https://travis-ci.org/
+# Validate this file here - http://lint.travis-ci.org/
+
+language: php
+
+# Define the php versions against we want to test our code
+php:
+    - 7.0
+
+install:
+  # Install composer packages
+  - travis_retry composer install --no-interaction --no-suggest
+
+cache:
+  directories:
+  - vendor
+  - $HOME/.cache/composer

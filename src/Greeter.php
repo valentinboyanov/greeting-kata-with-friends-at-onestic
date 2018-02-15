@@ -53,8 +53,11 @@ class Greeter
      */
     private function getSalutedFromArray($names): string
     {
+        $names = array_map(array($this, 'transformName'), $names);
+
         $lastName     = array_pop($names);
         $formatedName = implode(', ', $names);
+
 
         if (sizeof($names) >= 2) {
             $formatedName .=   ',';
@@ -63,6 +66,20 @@ class Greeter
         $formatedName .= ' and ' . $lastName;
         
         return $formatedName;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return string
+     */
+    private function transformName($name): string
+    {
+        if (ctype_upper($name)) {
+            $name = $this->greet($name);
+        }
+
+        return $name;
     }
 
 }

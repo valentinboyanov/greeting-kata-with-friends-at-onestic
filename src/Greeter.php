@@ -16,42 +16,42 @@ class Greeter
     const SHOUT_SALUTATION = "HELLO %s!";
 
     /**
-     * @param $name
+     * @param $who
      * @return string
      */
-    public function greet($name): string
+    public function greet($who): string
     {
-        return sprintf($this->getSalutation($name), $this->getSaluted($name));
+        return sprintf($this->getSalutation($who), $this->getSaluted($who));
     }
 
     /**
-     * @param $name
+     * @param $who
      * @return string
      */
-    private function getSalutation($name): string
+    private function getSalutation($who): string
     {
-        return ctype_upper($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
+        return ctype_upper($who) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
 
     /**
-     * @param $name
+     * @param $who
      * @return string
      */
-    private function getSaluted($name): string
+    private function getSaluted($who): string
     {
-        if (is_array($name)) {
-            $lastName = array_pop($name);
-            $lastName = ' and ' . $lastName;
+        if (is_array($who)) {
+            $lastName = array_pop($who);
+            $whoLastPart = ' and ' . $lastName;
 
-            if (count($name) > 1) {
-                $lastName = ',' . $lastName;
+            if (count($who) > 1) {
+                $whoLastPart = ',' . $whoLastPart;
             }
 
-            $name = implode(', ', $name);
-            $name .= $lastName;
+            $who = implode(', ', $who);
+            $who .= $whoLastPart;
         }
 
-        return $name ?? self::UNKNOWN_FRIEND;
+        return $who ?? self::UNKNOWN_FRIEND;
     }
 
 }

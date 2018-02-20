@@ -41,8 +41,14 @@ class Greeter
     {
         if (is_array($name)) {
             $lastName = array_pop($name);
+            $lastName = ' and ' . $lastName;
+
+            if (count($name) > 1) {
+                $lastName = ',' . $lastName;
+            }
+
             $name = implode(', ', $name);
-            $name .= ' and ' . $lastName;
+            $name .= $lastName;
         }
 
         return $name ?? self::UNKNOWN_FRIEND;

@@ -21,6 +21,20 @@ class Greeter
      */
     public function greet($who): string
     {
+        if (is_array($who)) {
+            foreach ($who as $key => $name) {
+                if (ctype_upper($name)) {
+                    unset($who[$key]);
+
+                    return sprintf(
+                        self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION,
+                        $this->getSaluted($who),
+                        $this->getSaluted($name)
+                    );
+                }
+            }
+        }
+
         return sprintf($this->getSalutation($who), $this->getSaluted($who));
     }
 

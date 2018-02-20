@@ -15,21 +15,27 @@ class Greeter
     const SALUTATION       = "Hello, %s.";
     const SHOUT_SALUTATION = "HELLO %s!";
 
-    private $shouterNameInArray;
-
     /**
      * @param $name
      * @return string
      */
     public function greet($name): string
     {
-        $theGreet = sprintf($this->getSalutation($name), $this->getSaluted($name));
+        if (is_array($name)) {
+            foreach ($name as $key => $value) {
+                if (ctype_upper($value)) {
+                    unset($name[$key]);
 
-        if ($this->shouterNameInArray != '') {
-            $theGreet .= sprintf(' AND ' . self::SHOUT_SALUTATION, $this->shouterNameInArray);
+                    return sprintf(
+                        self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION,
+                        $this->getSaluted($name),
+                        $this->getSaluted($value)
+                    );
+                }
+            }
         }
 
-        return $theGreet;
+        return sprintf($this->getSalutation($name), $this->getSaluted($name));
     }
 
     /**
@@ -61,13 +67,6 @@ class Greeter
      */
     private function getSalutedFromArray($names): string
     {
-        foreach ($names as $key => $name) {
-            if (ctype_upper($name)) {
-                unset($names[$key]);
-                $this->shouterNameInArray = $name;
-            }
-        }
-
         $lastName     = array_pop($names);
         $formatedName = implode(', ', $names);
 

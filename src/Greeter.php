@@ -14,6 +14,9 @@ class Greeter
     const UNKNOWN_FRIEND   = 'my friend';
     const SALUTATION       = "Hello, %s.";
     const SHOUT_SALUTATION = "HELLO %s!";
+    const MINIMUM_SALUTED  = 2;
+    const GLUE_COMMA       = ', ';
+    const GLUE_AND         = ' and ';
 
     /**
      * @param $name
@@ -40,10 +43,36 @@ class Greeter
     private function getSaluted($name): string
     {
         if (is_array($name)) {
-            $name = implode(' and ', $name);
+            $name = $this->convertArraySalutedToString($name);
         }
 
         return $name ?? self::UNKNOWN_FRIEND;
+    }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    private function convertArraySalutedToString($name): string
+    {
+        $glue = self::GLUE_AND;
+
+        if (sizeof($name) > self::MINIMUM_SALUTED) {
+            $name[sizeof($name) - 1] = 'and ' . $name[sizeof($name) - 1];
+            $glue                    = self::GLUE_COMMA;
+        }
+
+        return $this->implodeSalutedWithSpecificGlue($glue, $name);
+    }
+
+    /**
+     * @param $glue
+     * @param $name
+     * @return string
+     */
+    private function implodeSalutedWithSpecificGlue($glue, $name): string
+    {
+        return implode($glue, $name);
     }
 
 }

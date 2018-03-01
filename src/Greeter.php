@@ -30,13 +30,13 @@ class Greeter
                     return sprintf(
                         self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION,
                         $this->getSaluted($who),
-                        $this->getSaluted($name)
+                        $this->getShoutedSaluted($name)
                     );
                 }
             }
         }
 
-        return sprintf($this->getSalutation($who), $this->getSaluted($who));
+        return sprintf($this->getSalutation($who), $this->getSaluted($who), $this->getShoutedSaluted());
     }
 
     /**
@@ -79,5 +79,10 @@ class Greeter
         $formatedName .= ' and ' . $lastName;
 
         return $formatedName;
+    }
+
+    private function getShoutedSaluted($name = null)
+    {
+        return $this->getSaluted($name);
     }
 }

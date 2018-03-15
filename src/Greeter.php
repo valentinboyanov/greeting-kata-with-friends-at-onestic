@@ -16,12 +16,36 @@ class Greeter
     const SHOUT_SALUTATION = "HELLO %s!";
 
     /**
-     * @param $name
+     * @param $who
+     *
      * @return string
      */
-    public function greet($name): string
+    public function greet($who): string
     {
-        return sprintf($this->getSalutation($name), $this->getSaluted($name));
+        $format = $this->getSalutation($who);
+        $argumentTwo = $this->getShoutedSaluted();
+
+        $hasMurcian = false;
+        $whoToShout = '';
+
+        if (is_array($who)) {
+            foreach ($who as $key => $name) {
+                if ($this->shouldShout($name)) {
+                    $hasMurcian = true;
+                    unset($who[$key]);
+                    $whoToShout = $name;
+                }
+            }
+        }
+
+        if ($hasMurcian) {
+            $format = self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION;
+            $argumentTwo = $this->getShoutedSaluted($whoToShout);
+        }
+
+        $argumentOne = $this->getSaluted($who);
+
+        return sprintf($format, $argumentOne, $argumentTwo);
     }
 
     /**
@@ -30,7 +54,7 @@ class Greeter
      */
     private function getSalutation($name): string
     {
-        return ctype_upper($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
+        return $this->shouldShout($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
 
     /**
@@ -40,10 +64,44 @@ class Greeter
     private function getSaluted($name): string
     {
         if (is_array($name)) {
-            $name = implode(' and ', $name);
+            $name = $this->getSalutedFromArray($name);
         }
 
         return $name ?? self::UNKNOWN_FRIEND;
     }
 
+    /**
+     * @param $names
+     *
+     * @return string
+     */
+    private function getSalutedFromArray($names): string
+    {
+        $lastName     = array_pop($names);
+        $formatedName = implode(', ', $names);
+
+
+        if (sizeof($names) >= 2) {
+            $formatedName .= ',';
+        }
+
+        $formatedName .= ' and ' . $lastName;
+
+        return $formatedName;
+    }
+
+    private function getShoutedSaluted($name = null)
+    {
+        return $this->getSaluted($name);
+    }
+
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    private function shouldShout($name): bool
+    {
+        return ctype_upper($name);
+    }
 }

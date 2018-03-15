@@ -22,21 +22,30 @@ class Greeter
      */
     public function greet($who): string
     {
+        $format = $this->getSalutation($who);
+        $argumentTwo = $this->getShoutedSaluted();
+
+        $hasMurcian = false;
+        $whoToShout = '';
+
         if (is_array($who)) {
             foreach ($who as $key => $name) {
-                if (ctype_upper($name)) {
+                if ($this->shouldShout($name)) {
+                    $hasMurcian = true;
                     unset($who[$key]);
-
-                    return sprintf(
-                        self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION,
-                        $this->getSaluted($who),
-                        $this->getShoutedSaluted($name)
-                    );
+                    $whoToShout = $name;
                 }
             }
         }
 
-        return sprintf($this->getSalutation($who), $this->getSaluted($who), $this->getShoutedSaluted());
+        if ($hasMurcian) {
+            $format = self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION;
+            $argumentTwo = $this->getShoutedSaluted($whoToShout);
+        }
+
+        $argumentOne = $this->getSaluted($who);
+
+        return sprintf($format, $argumentOne, $argumentTwo);
     }
 
     /**
@@ -45,7 +54,7 @@ class Greeter
      */
     private function getSalutation($name): string
     {
-        return ctype_upper($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
+        return $this->shouldShout($name) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
 
     /**
@@ -84,5 +93,15 @@ class Greeter
     private function getShoutedSaluted($name = null)
     {
         return $this->getSaluted($name);
+    }
+
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    private function shouldShout($name): bool
+    {
+        return ctype_upper($name);
     }
 }

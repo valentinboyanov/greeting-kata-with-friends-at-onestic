@@ -21,21 +21,7 @@ class Greeter
      */
     public function greet($who): string
     {
-        if (is_array($who)) {
-            foreach ($who as $key => $name) {
-                if (ctype_upper($name)) {
-                    unset($who[$key]);
-
-                    return sprintf(
-                        self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION,
-                        $this->getSaluted($who),
-                        $this->getSaluted($name)
-                    );
-                }
-            }
-        }
-
-        return sprintf($this->getSalutation($who), $this->getSaluted($who));
+        return sprintf($this->getSalutation($who), $this->getSaluted($who), $this->getSalutedToShout($who));
     }
 
     /**
@@ -44,7 +30,17 @@ class Greeter
      */
     private function getSalutation($who): string
     {
-        return ctype_upper($who) ? self::SHOUT_SALUTATION : self::SALUTATION;
+        if ($this->areTheySeveral($who)) {
+            foreach ($who as $key => $name) {
+                if ($this->shouldShout($name)) {
+                    return self::SALUTATION . ' AND ' . self::SHOUT_SALUTATION;
+                }
+            }
+
+            return self::SALUTATION;
+        }
+
+        return $this->shouldShout($who) ? self::SHOUT_SALUTATION : self::SALUTATION;
     }
 
     /**
@@ -53,7 +49,14 @@ class Greeter
      */
     private function getSaluted($who): string
     {
-        if (is_array($who)) {
+        if ($this->areTheySeveral($who)) {
+
+            foreach ($who as $key => $name) {
+                if ($this->shouldShout($name)) {
+                    unset($who[$key]);
+                }
+            }
+
             $lastName = array_pop($who);
             $whoLastPart = ' and ' . $lastName;
 
@@ -68,4 +71,41 @@ class Greeter
         return $who ?? self::UNKNOWN_FRIEND;
     }
 
+
+    /**
+     * @param $who
+     * @return string
+     */
+    private function getSalutedToShout($who): string
+    {
+        $shoutingName = '';
+
+        if ($this->areTheySeveral($who)) {
+            foreach ($who as $key => $name) {
+                if ($this->shouldShout($name)) {
+                    $shoutingName = $name;
+                }
+            }
+        }
+
+        return $shoutingName;
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    private function shouldShout($name): bool
+    {
+        return ctype_upper($name);
+    }
+
+    /**
+     * @param $who
+     * @return bool
+     */
+    private function areTheySeveral($who): bool
+    {
+        return is_array($who);
+    }
 }
